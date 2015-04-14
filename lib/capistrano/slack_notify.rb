@@ -1,6 +1,7 @@
 require 'capistrano'
 require 'json'
 require 'net/http'
+require 'net/https'
 
 module Capistrano
   module SlackNotify
