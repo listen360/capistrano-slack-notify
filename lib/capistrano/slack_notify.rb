@@ -95,8 +95,27 @@ module Capistrano
       @revision ||= `git rev-parse #{branch}`.chomp
     end
 
+    def repository
+      unless @repo
+        repository = fetch(:repository, nil)
+        if repository
+          @repo = repository[/\/(.*?)\./m, 1]
+        end
+      end
+      @repo
+    end
+
+    def repository_owner
+      unless @repo_owner
+        repository = fetch(:repository, nil)
+        if repository
+          @repo_owner = repository[/:(.*?)\//m, 1]
+        end
+      end
+    end
+
     def deploy_target
-      [slack_app_name, branch].join('/') + (revision ? " (#{revision[0..5]})" : "")
+      [slack_app_name, branch].join('/') + (revision ? " (<https://github.com/#{repository_owner}/#{repository}/commit/#{revision[0..5]}|#{revision[0..5]}>)" : "")
     end
 
     def self.extended(configuration)
