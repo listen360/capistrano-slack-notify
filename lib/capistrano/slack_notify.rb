@@ -83,12 +83,12 @@ module Capistrano
       fetch(:deployer)
     end
 
-    def stage
-      fetch(:stage, 'production')
+    def environment
+      fetch(:rails_env, 'production')
     end
 
     def destination
-      fetch(:slack_destination, stage)
+      fetch(:slack_destination, environment)
     end
 
     def revision
